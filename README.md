@@ -54,3 +54,72 @@
 - JWT와 로컬스토리지를 이용한 로그인 기능 구현 :pushpin: [코드확인](https://github.com/Geuni620/31-1st-Dont-SOT-frontend/blob/8dba029c6817b5eb12164b7e9ed78f7d0698a248/src/pages/Login/Login.js#L31)
 
 <br>
+
+## 4. 트러블 슈팅
+
+> 프로젝트를 진행하며 문제해결했던 사항
+
+<details>
+<summary>불필요한 state 삭제 & 로직 오류 발견 및 수정</summary>
+
+<br>
+    
+* 백엔드 분기처리시 error 메세지가 뜰 경우 가입하기 버튼의 disabled이 true였다가 success메세지가 뜨면 false가 되도록 변경
+
+- disabled가 true라면 버튼을 누를 수 조차없고, 백엔드와 통신 자체가 불가능.
+- onClick event를 만들어서 구현하려 했으나, 버튼이 disabled일 경우 event를 읽지 못함.
+- 결국 삭제, 버튼의 disabled는 모든 input값이 빈 값이 아니라면 false가 되도록만 구현
+
+</details>
+
+<details>
+<summary>서버의 IP 주소관리 번거로움</summary>
+
+- 백엔드 IP 주소 변경시 모든 페이지 IP주소 일일이 변경해야하는 번거로움
+- config.js파일로 API주소 관리
+
+config.js
+
+```JS
+const BASE_URL = 'http://10.58.3.250:8000';
+
+const API = {
+Login: `${BASE_URL}/users/signin`,
+Join: `${BASE_URL}/users/signup`,
+JoinId: `${BASE_URL}/users/signup/idcheck`,
+};
+
+export default API;
+
+```
+
+<br>
+
+</details>
+
+<details>
+<summary>메세지 분기처리 시 `KEY ERROR` 발견</summary>
+
+- 백엔드 팀원과 소통을 통해 하나라도 input 값이 비어있을 시 KEY ERROR 메세지가 뜬다는 사실을 알게 됨.  
+  → 모든 값이 빈 값이면 button 비활성화로 대체
+
+</details>
+
+<details>
+<summary>useState 변수 키워드 let에서 const로 변경</summary>
+
+- 컴포넌트 함수가 실행되면서 매번 새로운 const 변수가 실행됨.
+- const로 선언함으로 state를 직접 수정 방지할 수 있음.
+
+✓ [참고자료](https://dudghsx.tistory.com/18)
+
+</details>
+
+<details>
+<summary>부모 width height 고정으로 준 값 깨짐 현상 발견</summary>
+
+- 부모 width height 고정으로 준 값 모두 삭제
+- 자식요소에 필요한 경우 width height 고정으로 변경
+- css `calc()` 적용
+
+</details>
